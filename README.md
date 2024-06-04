@@ -1,3 +1,5 @@
+**Basic File Structure**
+
 src/controllers: Handles incoming HTTP requests and interaacts with services
 
 src/middlewares: Contains middleware functions for authentication, error handling and validation
