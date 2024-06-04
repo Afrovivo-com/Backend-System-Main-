@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc --init",
     "start": "node ./dist/index.js",
-    "dev": "nodemon ./src/app.ts",
+    "dev": "nodemon ./services/auth/app.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
