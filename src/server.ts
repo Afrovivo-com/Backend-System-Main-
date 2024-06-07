@@ -1,13 +1,20 @@
 import express from "express";
-import sess from "./config/sessions";
+import bodyParser from 'body-parser';
+import { initRoutes } from "./routes/init";
 
-const server = express();
+export function create(config:{
+    env: string;
+    port: number;
+    hostname: string;
+}) {
+    const server = express();
+    server.set('env', config.env);
+    server.set('port', config.port);
+    server.set('hostname', config.hostname);
 
-const PORT = process.env.PORT || 3000;
+    server.use(bodyParser.json());
 
-server.set('trust proxy', 1)
-server.use(sess)
+    initRoutes(server);
 
-server.listen(PORT, () => {
-    console.log(`Listening at port ${PORT}`);
-})
+    return server;
+}
