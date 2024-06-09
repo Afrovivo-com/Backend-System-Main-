@@ -5,11 +5,9 @@ import dotenv from "dotenv";
 dotenv.config()
 const port = process.env.PORT || '3000';
 
-const PORT: number = parseInt(port);
-
 const config = {
     env: 'development',
-    port: PORT,
+    port: parseInt(port),
     hostname: 'localhost'
 }
 
