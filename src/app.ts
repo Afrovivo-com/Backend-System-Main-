@@ -1,9 +1,15 @@
 import {create} from './server';
 import sess from "./config/sessions";
+import dotenv from "dotenv";
+
+dotenv.config()
+const port = process.env.PORT || '3000';
+
+const PORT: number = parseInt(port);
 
 const config = {
     env: 'development',
-    port: 3000,
+    port: PORT,
     hostname: 'localhost'
 }
 
