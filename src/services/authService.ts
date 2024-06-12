@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { getErrorMessage } from "../utils/errors";
+import bcrypt from "bcrypt";
 
 const prisma = PrismaClient()
 
@@ -8,10 +9,11 @@ export async function registerService(body:{
     'password':string;
 }) {
     try {
+        const hashedpassword = await bcrypt.hash(body.password, 10)
         const user = await prisma.user.create({
             data: {
                 email: body.email,
-                password: body.password,
+                password: hashedpassword,
 
             }
         })
@@ -19,10 +21,8 @@ export async function registerService(body:{
         return user;
 
     } catch (error) {
-        getErrorMessage(error);
-    } finally {
-       await prisma.$disconnect();
-    }
+        throw new Error(getErrorMessage(error));
+    } 
 
 }
 
@@ -33,6 +33,7 @@ export async function loginService(body:{
 }) {
     try {
         const user = await prisma.user.findOne();
+        return user;
     } catch (error) {
         getErrorMessage(error);
     } finally {
