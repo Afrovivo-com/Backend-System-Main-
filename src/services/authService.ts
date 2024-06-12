@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { getErrorMessage } from "../utils/errors";
 import bcrypt from "bcrypt";
 
-const prisma = PrismaClient()
+const prisma = new PrismaClient()
 
 export async function registerService(body:{
     'email':string;
