@@ -1,24 +1,19 @@
-import express from "express"
-import cors from "cors"
+import {create} from './server';
+import sess from "./config/sessions";
+import dotenv from "dotenv";
 
-const app = express();
-//Configure cors
-app.use(cors());
+dotenv.config()
+const port = process.env.PORT || '3000';
 
-//Parser
-app.use(express.json());
-app.use(express.urlencoded({
-    extended: true
-}))
+const config = {
+    env: 'development',
+    port: parseInt(port),
+    hostname: 'localhost'
+}
 
-const PORT = 8000;
-app.get("/", (req, res) =>
-    {
-        res.send("Welcome to ");
-    }
-)
+const server = create(config);
+server.use(sess);
 
-app.listen(PORT, ()=>
-{
-    console.log("Server has started");
+server.listen(config.port, () => {
+    console.log(`Listening with port number ${config.port}`);
 })
