@@ -1,8 +1,11 @@
 import session from "express-session";
-const secretKey:string = process.env.SECRET_KEY
+import dotenv from "dotenv";
+ 
+dotenv.config();
+const secretKey = process.env.SECRET_KEY
 
 const sess = session({
-    secret: secretKey,
+    secret: secretKey as string,
     resave: false,
     saveUninitialized: false,
     cookie: {

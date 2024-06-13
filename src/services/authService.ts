@@ -1,8 +1,12 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
+import dotenv from "dotenv"
+
+dotenv.config();
 
 const prisma = new PrismaClient();
+const secretKey = process.env.SECRET_KEY
  
 export const registerUser = async(email:string, password:string) =>
     {
@@ -40,7 +44,7 @@ export const registerUser = async(email:string, password:string) =>
                     }
 
                     const token  = jwt.sign({userId: user.id},
-                        process.env.SECRET_KEY,{expiresIn: '1h'}
+                        secretKey as string,{expiresIn: '1h'}
                     );
                     return {token, user}
         }
