@@ -2,8 +2,9 @@ services:
   app:
     build:
       dockerfile: Dockerfile
+    command: "npm start"  
     volumes:
-      - "./app"
+      - .:/app
     ports:
       - "3000:3000"
     depends_on:
@@ -14,7 +15,7 @@ services:
     image: redis
 
   db:
-    image: postgress
+    image: postgres
     environment: 
-      POSTGRESS_PASSWORD: "afrovivo@9023"
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     
