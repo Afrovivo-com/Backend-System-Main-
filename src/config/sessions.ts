@@ -10,8 +10,10 @@ if (!secretKey) {
     throw new Error("No secret key found. Please define SECRET_KEY environment variable.");
 }
 
+
 const reidsClient = createClient();
 reidsClient.connect().catch(console.error);
+
 
 const redisStore = new RedisStore({
     client: reidsClient,
