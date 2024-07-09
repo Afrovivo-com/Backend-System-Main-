@@ -24,3 +24,4 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: afrovivo_db
       
+

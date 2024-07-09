@@ -5,7 +5,9 @@ import dotenv from "dotenv"
 
 dotenv.config();
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+    log: ['query', 'info', 'warn', 'error'],
+  });
 const secretKey = process.env.SECRET_KEY
  
 export const registerUser = async(email:string, password:string) =>
