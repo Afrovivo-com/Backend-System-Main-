@@ -14,7 +14,7 @@ services:
     image: redis
 
   db:
-    image: postgress
+    image: postgres
     environment: 
-      POSTGRESS_PASSWORD: "afrovivo@9023"
+      POSTGRES_PASSWORD: "afrovivo@9023"
     
