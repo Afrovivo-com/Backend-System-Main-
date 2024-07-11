@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as the base image
-FROM node:14
+FROM node:18
 
 # Set the working directory in the container to /app
 WORKDIR /app
@@ -12,6 +12,10 @@ RUN npm install
 
 # Copy the rest of the application code into the container
 COPY . .
+
+RUN npm run build
+
+RUN npx prisma generate
 
 # Expose port 3000 for the application
 EXPOSE 3000
