@@ -1,9 +1,13 @@
 services:
   app:
     build:
+      context: .
       dockerfile: Dockerfile
+      no_cache: true
+    command: "npm run start"  
     volumes:
-      - "./app"
+      - .:/app
+      - /app/node_modules
     ports:
       - "3000:3000"
     depends_on:
@@ -16,5 +20,8 @@ services:
   db:
     image: postgres
     environment: 
-      POSTGRES_PASSWORD: "afrovivo@9023"
-    
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: afrovivo_db
+      
+
