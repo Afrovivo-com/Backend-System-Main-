@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { PrismaClient, User } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import dotenv from "dotenv";
 import { registerUser, authenticateUser } from "../src/services/authService";
 
@@ -33,7 +33,7 @@ describe('Auth Service', () => {
       const password = 'password123';
       const hashedPassword = await bcrypt.hash(password, 18);
 
-      const createdUser: User = {
+      const createdUser = {
         id: 1,
         email,
         password: hashedPassword,
@@ -57,7 +57,7 @@ describe('Auth Service', () => {
       const password = 'password123';
       const hashedPassword = await bcrypt.hash(password, 18);
 
-      const foundUser: User = {
+      const foundUser = {
         id: 1,
         email,
         password: hashedPassword,
@@ -90,7 +90,7 @@ describe('Auth Service', () => {
       const password = 'wrongpassword';
       const hashedPassword = await bcrypt.hash('password123', 18);
 
-      const foundUser: User = {
+      const foundUser = {
         id: 1,
         email,
         password: hashedPassword,
