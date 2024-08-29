@@ -3,7 +3,6 @@ import bodyParser from 'body-parser';
 import { initRoutes } from "./routes/init";
 import PaymentRoutes from "../PaymentRoutes"
 
-app.use('/api', paymentRoutes);
 
 export function create(config:{
     env: string;
