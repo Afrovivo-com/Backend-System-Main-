@@ -1,6 +1,5 @@
 import  {Request, Response} from "express";
 import {createTransaction, getTransactionById, labelTransaction} from "../services/transactionLabelling";
-import {Status} from "@prisma/client"
 export const createTransactionController=async(req:Request, res:Response)=>
 {
     try{
