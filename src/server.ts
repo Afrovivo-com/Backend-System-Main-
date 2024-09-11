@@ -1,7 +1,6 @@
 import express from "express";
 import bodyParser from 'body-parser';
 import { initRoutes } from "./routes/init";
-import PaymentRoutes from "../PaymentRoutes"
 
 
 export function create(config:{

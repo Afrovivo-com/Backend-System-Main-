@@ -6,6 +6,7 @@ import authRoute from "./routes/authRoute";
 import transactionRoutes from "./routes/transactionLabellingRoute";
 import storeRoute from "./routes/storeRoute";
 import { authenticateJWT } from './middlewares/authMiddleware';
+import PaymentRoutes from "./routes/PaymentRoutes"
 
 dotenv.config();
 
