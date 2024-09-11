@@ -23,6 +23,7 @@ server.use(sess);
 server.use(express.json()); // Ensure JSON parsing is enabled
 server.use('/api/auth', authRoute);
 server.use("/api", storeRoute);
+server.use('api/payments', PaymentRoutes);
 server.get('/api/protected', authenticateJWT, (req: Request, res: Response) => {
     res.json({ message: "You have accessed a protected route!", user: (req as any).user });
 });
