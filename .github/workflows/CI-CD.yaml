@@ -1,83 +1,83 @@
 name: CI/CD Pipeline
 
 on:
- push:
-  branches:
-     -main
- pull_request:
-   branches:
-     -main
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   test-1:
-   runs-on: ubuntu-latest
-   steps: 
-       -name: Checkout code
-       uses: actions/checkout@v2
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-       -name: Set up Node.js
-       uses: actions/setup-node@v2
-       with:
-           node-version: '14'
-
-       -name: Install dependencies
-       run: npm install
-
-       -name: Run inital tests
-       run: npm run test
-
-   dockerize: 
-     runs-on: ubuntu-latest
-     needs: test-1
-     steps:
-       -name: Checkout code
-       uses: actions/checkout@v2
-
-       -name: Set up Node.js
-       uses: actions/setup-node@v2
-       with:
-         node-version: '14'
-
-         -name: Install dependencies
-         run: npm install
-
-         -name: Build Docker image
-         run: 
-             docker build -t Backend-System-Main-:latest
-             echo "${{secrets.DOCKER_PASSWORD}}"|docker login -u "${{secrets.DOCKER_USERNAME}}" --password-stdin
-             docker push Backend-System-Main-:latest
-
-   test-2:
-      runs-on: ubuntu-latest
-      needs: dockerize
-      steps: 
-        -name: Checkout code
-        uses: actions/@checkout@v2
-
-        -name: Set up Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v2
-        with: 
-           node-version: '14'
+        with:
+          node-version: '14'
 
-        -name: Install dependencies
+      - name: Install dependencies
         run: npm install
 
-        -name: Start Docker container for testing
-        run: 
-          docker pull Backend-System-Main-:latest
-          docker run -d -p 5432:5432 --name postgres postgres:latest
-          docker run -d -p 3000:3000 --link postgres:postgres Backend-System-Main-:latest
+      - name: Run initial tests
+        run: npm run test
 
-        -name: Run integration tesrs
+  dockerize:
+    runs-on: ubuntu-latest
+    needs: test-1
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Docker image
+        run: |
+          docker build -t backend-system-main:latest .
+          echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u "${{secrets.DOCKER_USERNAME}}" --password-stdin
+          docker push backend-system-main:latest
+
+  test-2:
+    runs-on: ubuntu-latest
+    needs: dockerize
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Start Docker container for testing
+        run: |
+          docker pull backend-system-main:latest
+          docker run -d -p 5432:5432 --name postgres postgres:latest
+          docker run -d -p 3000:3000 --link postgres:postgres backend-system-main:latest
+
+      - name: Run integration tests
         run: npm run test:integration
 
-    deploy:
-        runs-on: ubuntu-latest
-        needs: test-2
-        steps:
-            -name: Checkout code
-            uses: actions/checkout@v2
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test-2
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-            -name: Deploy to production
-            run:
-                    ssh user@your-server 'docker pull Backend-System-Main-:latest && docker-compose up -d'
+      - name: Deploy to production
+        run: |
+          ssh user@your-server 'docker pull backend-system-main:latest && docker-compose up -d'
