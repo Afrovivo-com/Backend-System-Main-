@@ -4,7 +4,7 @@ import { createClient } from "redis";
 import RedisStore from "connect-redis";
  
 dotenv.config();
-const secretKey = process.env.SECRET_KEY as string
+const secretKey = process.env.SESSION_SECRET_KEY as string
 
 if (!secretKey) {
     throw new Error("No secret key found. Please define SECRET_KEY environment variable.");
