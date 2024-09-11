@@ -1,14 +1,20 @@
+import { Paystack, PaystackOptions }  from 'paystack-node';
 
-const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY
+const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY as string
+const PAYSTACK_PUBLIC_KEY = process.env.PAYSTACK_PUBLIC_KEY as string
 
-const paystack = require('paystack-node');
-//import { paystack }  from 'paystack-node';
+const options: PaystackOptions = {
+  secretKey: PAYSTACK_SECRET_KEY,
+  publicKey: PAYSTACK_PUBLIC_KEY,
+  encryptionKey: '',
+  bearerToken: ''
+}
 
 class PaymentController {
   private paystackInstance: any;
 
   constructor() {
-    this.paystackInstance = new paystack(PAYSTACK_SECRET_KEY);
+    this.paystackInstance = new Paystack(options);
   }
 
   async initiatePayment(req: any, res: any) {
